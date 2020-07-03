@@ -1,0 +1,10 @@
+.main {
+  background: radial-gradient(#fff, #bbb);
+}
+
+.vertical-line {
+  height: 100px;
+  width: 2px;
+  margin-left: 50px;
+  background-color: #000000;
+}

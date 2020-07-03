@@ -1,0 +1,110 @@
+<div class="container col-12" style="height:100%; position:absolute;background-color: #d4dbd9">
+  <div class="row" style="background-color: var(--primary);height: 10%;"></div>
+  <div class="row justify-content-center align-items-center" style="height: 100%;position:absolute;top:0;width: 100%">
+    <mat-card class="col-12 col-lg-4" style="height: 95%;min-width:75%;padding:0">
+      <mat-card-content style="height:100%">
+        <div class="row" style="height:100%;padding:0;margin:0">
+          <div class="col-12 col-lg-4" style="border:1px solid #e4e6e6;height:100%">
+            <div class="row px-2 py-2 align-items-center"
+              style="background-color:#eeeeee;border-bottom:5px solid var(--primary)">
+              <div class="col" style="display: contents">
+                <img src="../../assets/profile_pic.png" style="border-radius: 50%;height:40px;width: 40px">
+              </div>
+              <div class="col">
+                <h4 *ngIf="selfData" style="margin-bottom:0">{{selfData.username}}</h4>
+              </div>
+              <div class="col" style="display:contents">
+                <button mat-icon-button (click)="logout()">
+                  <mat-icon>logout</mat-icon>
+                </button>
+              </div>
+            </div>
+
+
+
+            <div *ngFor="let chat of chats" class="row px-2 py-2 align-items-center chat-menu-item"
+              [ngClass]="{'chat-menu-item-active':selectedChat&&(selectedChat._id==chat._id)}"
+              (click)="selectChat(chat)">
+              <div class="col" style="display: contents">
+                <img src="../../assets/profile_pic.png"
+                  style="border-radius: 50%;height:40px;width: 40px;border:1px solid #c3c3c3">
+              </div>
+              <div class="col">
+                <h5 style="margin-bottom:0">{{getOppositeUser(chat.participants).username}}</h5>
+              </div>
+              <div class="col" style="display:contents">
+                <span class="new-msg-count"
+                  *ngIf="getUnreadMessagesCount(chat.messages)!=0">{{getUnreadMessagesCount(chat.messages)}}</span>
+              </div>
+            </div>
+
+            <div class="row px-2 py-2 justify-content-center chat-menu-item" style="text-align: center"
+              (click)="openAddChatDialog()">
+              <span>
+                <mat-icon>add</mat-icon>
+              </span>Add New Chat
+            </div>
+          </div>
+          <div class="col-12 col-lg-8">
+            <div class="alert alert-success" *ngIf="success">
+              <strong>Success:</strong>{{success}}
+            </div>
+
+            <div class="alert alert-danger" *ngIf="error">
+              <strong>Error:</strong>{{error}}
+            </div>
+
+            <mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>
+
+            <div class="row justify-content-center" style="height:100%">
+              <h3 style="text-align: center" *ngIf="selfData && !selectedChat" class="align-self-center">
+                Welcome<br>{{selfData.username}}</h3>
+              <div class="col-12" *ngIf="selectedChat"
+                style="background-image: url('../../assets/chat_background.png') ">
+
+                <div class="row px-2 py-2" style="background-color: #eeeeee">
+                  <div class="col" style="display: contents">
+                    <img src="../../assets/profile_pic.png" style="border-radius: 50%;height:40px;width: 40px">
+                  </div>
+                  <div class="col">
+                    <h4 *ngIf="selfData" style="margin-bottom:0;line-height: 1.7em">
+                      {{getOppositeUser(selectedChat.participants).username}}
+                    </h4>
+                  </div>
+                </div>
+
+                <div class="row px-2 py-2 align-items-end"
+                  style="position: absolute; top:0;bottom:50px;left:0;right:0;margin:0;margin-top:50px">
+                  <div class="col" #scrollMe [scrollTop]="scrollMe.scrollHeight"
+                    style="width:100%;overflow-y:scroll;height:100%">
+                    <div class="row py-2"
+                      [ngClass]="{'justify-content-start':message.from!=selfData._id,'justify-content-end':message.from==selfData._id}"
+                      *ngFor="let message of selectedChat.messages">
+                      <div class="px-3 py-2 message"
+                        [ngClass]="{'message-incoming':message.from!=selfData._id,'message-outgoing':message.from==selfData._id}"
+                        style="max-width: 70%">
+                        {{message.message}}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row px-2 py-2"
+                  style="background-color: #dedede;position:absolute;bottom:0;right:0;left:0;margin:0">
+                  <form style="width: 100%" [formGroup]="sendMessageForm" (submit)="sendMessage($event)">
+                    <input type="text" class="px-2 py-2"
+                      style="background-color: #ffffff;border: none;border-radius: 20px 20px;width:100%;padding-right: 50px;outline: none"
+                      placeholder="Type a message" formControlName="message">
+                    <button mat-icon-button type="submit" style="position:absolute;right:10px;outline:none">
+                      <mat-icon>send</mat-icon>
+                    </button>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

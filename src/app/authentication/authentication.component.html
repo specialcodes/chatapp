@@ -1,0 +1,69 @@
+<div class="container col-12" style="height:100%; position:absolute;background-color: #efefef">
+  <div class="row" style="background-color: var(--primary);height: 50%;"></div>
+  <div class="row justify-content-center align-items-center" style="height: 100%;position:absolute;top:0;width: 100%">
+    <mat-card class="col-12 col-lg-4" style="min-height: 500px">
+      <mat-card-header>
+        <h3>Authentication</h3>
+      </mat-card-header>
+
+      <mat-card-content>
+        <div class="alert alert-success" *ngIf="success">
+          <strong>Success:</strong>{{success}}
+        </div>
+        <div class="alert alert-danger" *ngIf="error">
+          <strong>Error:</strong>{{error}}
+        </div>
+        <mat-tab-group>
+          <mat-tab label="Login">
+
+            <form class="col-12 my-5" [formGroup]="loginForm" (submit)="login()">
+              <mat-form-field style="width: 100%">
+                <input matInput type="text" required formControlName="username" placeholder="Username">
+                <mat-error *ngIf="loginUsername.hasError('required')">Username is <strong>required</strong></mat-error>
+              </mat-form-field>
+
+              <mat-form-field style="width:100%">
+                <input matInput type="password" required formControlName="password" placeholder="Password">
+                <mat-error *ngIf="loginPassword.hasError('required')">Password is <strong>required</strong></mat-error>
+              </mat-form-field>
+
+              <mat-progress-bar mode="indeterminate" *ngIf="loggingIn"></mat-progress-bar>
+              <button mat-raised-button color="primary" class="col-12 my-2" type="submit" (click)="login()"
+                [disabled]="loggingIn">Login</button>
+            </form>
+          </mat-tab>
+
+          <mat-tab label="Sign Up">
+            <form class="col-12 my-5" [formGroup]="signupForm" (submit)="login()">
+
+              <mat-form-field style="width: 100%">
+                <input matInput type="text" required formControlName="username" placeholder="Username (min length 3)"
+                  autocomplete="off" minlength="3">
+                <mat-error *ngIf="signupUsername.hasError('required')">Username is <strong>required</strong></mat-error>
+              </mat-form-field>
+              <p *ngIf="!checkingUsername && signupUsername.value.length>2"
+                [ngClass]="{'alert-success':usernameAvailable,'alert-danger':!usernameAvailable}">
+                {{usernameAvailable?'Username is available':'Username not available'}}
+              </p>
+
+              <mat-form-field style="width:100%">
+                <input matInput type="password" required formControlName="password" placeholder="Password">
+                <mat-error *ngIf="signupPassword.hasError('required')">Password is <strong>required</strong></mat-error>
+              </mat-form-field>
+
+              <mat-form-field style="width:100%">
+                <input matInput type="password" required formControlName="confirmPassword"
+                  placeholder="Confirm Password">
+                <mat-error *ngIf="signupPassword.value!=signupConfirmPassword.value">passwords do not
+                  match</mat-error>
+              </mat-form-field>
+              <mat-progress-bar mode="indeterminate" *ngIf="signingUp"></mat-progress-bar>
+              <button mat-raised-button color="primary" class="col-12 my-2" type="submit" (click)="signup()"
+                [disabled]="signingUp">Signup</button>
+            </form>
+          </mat-tab>
+        </mat-tab-group>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

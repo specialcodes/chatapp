@@ -1,0 +1,7 @@
+.user-list-item {
+  cursor: pointer;
+}
+
+.user-list-item:hover {
+  background-color: #efefef;
+}

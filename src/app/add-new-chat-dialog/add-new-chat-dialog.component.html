@@ -1,0 +1,40 @@
+<h2 mat-dialog-title>Select an user</h2>
+<div class="alert alert-success" *ngIf="success">
+  <strong>Success:</strong>{{success}}
+</div>
+
+<div class="alert alert-danger" *ngIf="error">
+  <strong>Error:</strong>{{error}}
+</div>
+<mat-dialog-content>
+  <mat-list>
+    <mat-list-item class="user-list-item" *ngFor="let user of users" (click)="addNewChat(user)">
+      <mat-divider></mat-divider>
+      <div class="row py-2" matRipple matRippleColor="#eeeeee" style="width: 100%">
+        <div class="col-2">
+          <img src="../../assets/profile_pic.png"
+            style="height: 30px;width:30px;border-radius: 50%;border-top:1px solid #efefef;border-bottom:1px solid #efefef">
+        </div>
+
+        <div class="col-8">
+          <h5 style="margin:0">{{user.username}}</h5>
+        </div>
+
+        <div class="col-2">
+          <div class="row justify-content-end">
+            <div style="background-color: green;border-radius: 50%;height:12px;width: 12px"></div>
+
+          </div>
+        </div>
+
+      </div>
+      <mat-divider></mat-divider>
+    </mat-list-item>
+  </mat-list>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <mat-progress-bar mode="indeterminate" *ngIf="addingNewChat"></mat-progress-bar>
+  <div class="row justify-content-end" style="width:100%">
+    <button style="outline: none" mat-dialog-close mat-raised-button color="warn">Cancel</button>
+  </div>
+</mat-dialog-actions>
